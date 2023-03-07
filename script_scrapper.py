@@ -10,7 +10,7 @@ import pathlib
 
 
 
-def scrapProductInformations(url): 
+def scrap_product_informations(url): 
     
     try:
         response = requests.get(url) # chager la page web
@@ -28,7 +28,7 @@ def scrapProductInformations(url):
         review_rating = soup.find_all("td")[6].string
         image_url = 'http://books.toscrape.com/' +soup.find_all("img")[0]['src'][6:]
         
-        downloadAndStoreImg(image_url, title) # telecharger et enregistrer l'image
+        download_and_store_img(image_url, title) # telecharger et enregistrer l'image
         
         return [product_page_url, universal_product_code, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url] 
 
@@ -42,7 +42,7 @@ def scrapProductInformations(url):
         print(colored('Url incorect : \n ' + str(error), 'red' ))
 
 # ecrire les donnes dans un fichier CSV
-def writeCsv(data, file_name):
+def write_csv(data, file_name):
 
     headers = ['product_page_url', 'universal_product_code', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description','category', 'review_rating', 'image_url'] #ENTETS CSV
     
@@ -57,7 +57,7 @@ def writeCsv(data, file_name):
 
 # PHASE 2 
 
-def scrapCategories():
+def scrap_categories():
 
     try:
         url = 'http://books.toscrape.com/index.html'
@@ -83,7 +83,7 @@ def scrapCategories():
         print(colored('Erreur : \n ' + str(error), 'red' ))
 
 
-def scrapPageByCategory(url):
+def scrap_page_by_category(url):
 
     loop = True
     index = 'index'
@@ -96,17 +96,18 @@ def scrapPageByCategory(url):
             category_name = soup.select('#default > div > div > div > div > div.page-header.action > h1')
             links = soup.select('#default > div > div > div > div > section > div:nth-child(2) > ol > li > article > h3 > a')
             for link in links:
-                results.append(scrapProductInformations('http://books.toscrape.com/catalogue/' + link.get('href')[8:]))
+                results.append(scrap_product_informations('http://books.toscrape.com/catalogue/' + link.get('href')[8:]))
             i += 1
             index = 'page-' + str(i)
         else:
             loop = False
     category_name = re.sub(r'\s', '', category_name[0].string) # retirer les espaces
-    writeCsv(results,category_name)
+    write_csv(results,category_name)
 
 # phase 3
-def selectCategory():
-    options = scrapCategories()
+
+def select_category():
+    options = scrap_categories()
     titles = options[0]
     links = options[1] 
     opt = ' \n' #la liste des options
@@ -124,28 +125,28 @@ def selectCategory():
         selected = int(input())
         try:
             select = links[selected] #verification que lien existe 
-            print('Veuillez patienter, votre fichier est en cours de génération.','green')
-            scrapPageByCategory(select)
+            print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
+            scrap_page_by_category(select)
         except IndexError:
             print("Le nombre entré ne correspond à aucune catégorie, veuillez réessayer.",'red')
-            selectCategory()
+            select_category()
     except ValueError:
         print("Seulement les nombres sont acceptés, veuillez réessayer.",'red')
-        selectCategory()
+        select_category()
 
 
 # Scrapper tout les pages
-def scrapeAll():
-    categories = scrapCategories()
+def scrape_all():
+    categories = scrap_categories()
     categories_links = categories[1]
     
     for link in categories_links:
-         scrapPageByCategory(link)
+         scrap_page_by_category(link)
 
 
 # phase 4
 # telecharger et enregistrer les images
-def downloadAndStoreImg(url, name):
+def download_and_store_img(url, name):
     r = requests.get(url)
     text = re.sub(r'[^a-zA-Z0-9]', '', name)
     file_name = text + ".jpg"
@@ -167,12 +168,12 @@ def main():
 
     if select == '1':
         url = input(colored('\n\t\t Veuillez entrer l\'URL : \n\t\t\t\t','cyan'))
-        data = scrapProductInformations(url)
-        writeCsv([data], re.sub(r'\s', '', data[2]))
+        data = scrap_product_informations(url)
+        write_csv([data], re.sub(r'\s', '', data[2]))
     elif select == '2':
-        selectCategory()
+        select_category()
     elif select == '3': 
-        scrapeAll()
+        scrape_all()
     else :
         print(colored("Erreur de sélection, veuillez réessayer.",'red'))
 
