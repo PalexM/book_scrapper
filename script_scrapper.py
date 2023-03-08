@@ -10,6 +10,7 @@ import pathlib
 
 
 
+
 def scrap_product_informations(url): 
     
     try:
