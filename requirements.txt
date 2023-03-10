@@ -1,7 +1,7 @@
-import requests
-from bs4 import BeautifulSoup
-import csv
-import re
-from termcolor import colored
-import os
-import pathlib
+beautifulsoup4==4.11.2
+colored==1.4.4
+distlib==0.3.6
+filelock==3.9.0
+platformdirs==3.1.0
+soupsieve==2.4
+virtualenv==20.20.0
