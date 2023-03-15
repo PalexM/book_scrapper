@@ -43,11 +43,15 @@ def scrap_product_informations(url):
         print(colored('Url incorect : \n ' + str(error), 'red' ))
 
 # ecrire les donnes dans un fichier CSV
-def write_csv(data, file_name):
-
+def write_csv(data, category_name):
     headers = ['product_page_url', 'universal_product_code', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description','category', 'review_rating', 'image_url'] #ENTETS CSV
     
-    with open(file_name+'.csv', 'w', encoding='UTF8') as file: # creer ou mettre a jour le fichier CSV
+    csv_folder = pathlib.Path.cwd().joinpath("csv")  # chemin d'enregistrement
+    if not csv_folder.exists():
+        csv_folder.mkdir()
+
+    csv_file = csv_folder.joinpath(category_name + '.csv')
+    with open(csv_file, 'w', encoding='UTF8', newline='') as file: # creer ou mettre a jour le fichier CSV
         writer = csv.writer(file)
         # ecrire les entetes 
         writer.writerow(headers)
@@ -102,7 +106,7 @@ def scrap_page_by_category(url):
             index = 'page-' + str(i)
         else:
             loop = False
-    category_name = re.sub(r'\s', '', category_name[0].string) # retirer les espaces
+    category_name = re.sub(r'[^a-zA-Z0-9]', '', category_name[0].string) # retirer les espaces
     write_csv(results,category_name)
 
 # phase 3
@@ -125,7 +129,7 @@ def select_category():
     try:
         selected = int(input())
         try:
-            select = links[selected] #verification que lien existe 
+            select = links[selected] #verification que lien existe
             print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
             scrap_page_by_category(select)
         except IndexError:
@@ -148,6 +152,8 @@ def scrape_all():
 # phase 4
 # telecharger et enregistrer les images
 def download_and_store_img(url, name):
+    
+
     r = requests.get(url)
     text = re.sub(r'[^a-zA-Z0-9]', '', name)
     file_name = text + ".jpg"
@@ -170,10 +176,12 @@ def main():
     if select == '1':
         url = input(colored('\n\t\t Veuillez entrer l\'URL : \n\t\t\t\t','cyan'))
         data = scrap_product_informations(url)
-        write_csv([data], re.sub(r'\s', '', data[2]))
+        print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
+        write_csv([data], re.sub(r'[^a-zA-Z0-9]', '', data[2]))
     elif select == '2':
         select_category()
-    elif select == '3': 
+    elif select == '3':
+        print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
         scrape_all()
     else :
         print(colored("Erreur de sélection, veuillez réessayer.",'red'))

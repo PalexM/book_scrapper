@@ -8,7 +8,7 @@ Ouvrez un terminal (sur Linux ou Mac) ou une invite de commande (sur Windows) da
 
 Installez la bibliothèque "virtualenv" en utilisant la commande suivante : ```pip install virtualenv``` 
 
-Créez un nouvel environnement virtuel en utilisant la commande suivante : ```virtualenv venv``` (**venv** c'est le nom de l'environement, libre a vous de changer le nom)
+Créez un nouvel environnement virtuel en utilisant la commande suivante : ```virtualenv venv``` (**venv** c'est le nom de l'environnement, libre à vous de changer le nom)
 
 Activez votre environnement virtuel en utilisant la commande suivante : ```source nom_de_votre_environnement/bin/activate```
 
@@ -18,8 +18,8 @@ Lorsque vous avez terminé de travailler sur votre projet, vous pouvez désactiv
 
 Toutes les librairies utilisées sont renseignées dans le fichier **requirements.txt**
 
-Pour l'installation, lancer la commande ```pip install requirements.txt```
+Pour l'installation, lancer la commande ```pip install -r requirements.txt```
 
 ## Utilisation
 
-Pour lancer le script, utiliser la commande ``` py script_scrapper.py ```, puis laissez vous guider par le programme.
+Pour lancer le script, utiliser la commande ``` py script_scrapper.py ```, puis laissez vous guider par le programme.git
