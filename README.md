@@ -22,4 +22,4 @@ Pour l'installation, lancer la commande ```pip install -r requirements.txt```
 
 ## Utilisation
 
-Pour lancer le script, utiliser la commande ``` py script_scrapper.py ```, puis laissez vous guider par le programme.git
+Pour lancer le script, utiliser la commande ``` py script_scrapper.py ```, puis laissez vous guider par le programme
