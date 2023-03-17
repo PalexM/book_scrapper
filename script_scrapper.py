@@ -132,6 +132,7 @@ def select_category():
             select = links[selected] #verification que lien existe
             print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
             scrap_page_by_category(select)
+            print(colored('Le traitement a été effectué avec succès ! Les données ont été stockées dans le dossier CSV et les photos dans le dossier PHOTOS','green'))
         except IndexError:
             print("Le nombre entré ne correspond à aucune catégorie, veuillez réessayer.",'red')
             select_category()
@@ -170,7 +171,7 @@ def download_and_store_img(url, name):
 def main():
 
     print(colored('\n\t\t\t\t\t\t Veuillez choisir parmi les options suivantes : \n','cyan'))
-    print(colored('\n\t\t 1. Scraper A Partir d\'un URL \t\t 2. Scrap Une Cathegorie \t\t 3. Scrapper Tout','cyan'))
+    print(colored('\n\t\t 1. Scraper la page d\'un Bookin  \t\t 2. Scrap Une Cathegorie \t\t 3. Scrapper Tout','cyan'))
     select = input()
 
     if select == '1':
@@ -178,11 +179,13 @@ def main():
         data = scrap_product_informations(url)
         print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
         write_csv([data], re.sub(r'[^a-zA-Z0-9]', '', data[2]))
+        print(colored('Le traitement a été effectué avec succès ! Les données ont été stockées dans le dossier CSV et les photos dans le dossier PHOTOS','green'))
     elif select == '2':
         select_category()
     elif select == '3':
         print(colored('Veuillez patienter, votre fichier est en cours de génération.','green'))
         scrape_all()
+        print(colored('Le traitement a été effectué avec succès ! Les données ont été stockées dans le dossier CSV et les photos dans le dossier PHOTOS','green'))
     else :
         print(colored("Erreur de sélection, veuillez réessayer.",'red'))
 

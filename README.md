@@ -15,7 +15,7 @@ Activez votre environnement virtuel en utilisant la commande suivante : ```sourc
 Lorsque vous avez terminé de travailler sur votre projet, vous pouvez désactiver votre environnement virtuel en utilisant la commande suivante : ```deactivate```
 
 ## Installation
-
+**Pour ce projet, j'utilise la version de Python 3.11.1.**
 Toutes les librairies utilisées sont renseignées dans le fichier **requirements.txt**
 
 Pour l'installation, lancer la commande ```pip install -r requirements.txt```
