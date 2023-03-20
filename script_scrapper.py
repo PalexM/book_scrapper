@@ -26,7 +26,7 @@ def scrap_product_informations(url):
         number_available = soup.find_all("td")[3].string
         product_description = soup.find_all("p")[3].string
         category = soup.find_all("a")[3].string
-        review_rating = soup.find_all("td")[6].string
+        review_rating = fonction_switch(soup.find('p', {'class': 'star-rating'}).get('class')[1])
         image_url = 'http://books.toscrape.com/' +soup.find_all("img")[0]['src'][6:]
         
         download_and_store_img(image_url, title) # telecharger et enregistrer l'image
@@ -101,7 +101,7 @@ def scrap_page_by_category(url):
             category_name = soup.select('#default > div > div > div > div > div.page-header.action > h1')
             links = soup.select('#default > div > div > div > div > section > div:nth-child(2) > ol > li > article > h3 > a')
             for link in links:
-                results.append(scrap_product_informations('http://books.toscrape.com/catalogue/' + link.get('href')[8:]))
+                results.append(scrap_product_informations('http://books.toscrape.com/catalogue' + link.get('href')[8:]))
             i += 1
             index = 'page-' + str(i)
         else:
@@ -166,6 +166,19 @@ def download_and_store_img(url, name):
     file_path = photos_folder.joinpath(file_name)
     with open(file_path, "wb") as f:
         f.write(r.content)
+
+
+def fonction_switch(arg):
+    switch = {
+        'Zero' : 0,
+        'One': 1,
+        'Two': 2,
+        'Three': 3,
+        'Four': 4,
+        'Five': 5
+    }
+    return switch.get(arg)
+
 
 
 def main():
