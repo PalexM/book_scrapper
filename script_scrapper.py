@@ -23,7 +23,7 @@ def scrap_product_informations(url):
         title = soup.find_all("h1")[0].string
         price_including_tax = soup.find_all("td")[2].string
         price_excluding_tax = soup.find_all("td")[3].string
-        number_available = soup.find_all("td")[5].string
+        number_available = re.findall(r'\d+', soup.find_all("td")[5].string)[0] # garder que les ciffres
         product_description = soup.find_all("p")[3].string
         category = soup.find_all("a")[3].string
         review_rating = fonction_switch(soup.find('p', {'class': 'star-rating'}).get('class')[1])
