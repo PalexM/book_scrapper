@@ -23,14 +23,14 @@ def scrap_product_informations(url):
         title = soup.find_all("h1")[0].string
         price_including_tax = soup.find_all("td")[2].string
         price_excluding_tax = soup.find_all("td")[3].string
-        number_available = soup.find_all("td")[3].string
+        number_available = soup.find_all("td")[5].string
         product_description = soup.find_all("p")[3].string
         category = soup.find_all("a")[3].string
         review_rating = fonction_switch(soup.find('p', {'class': 'star-rating'}).get('class')[1])
         image_url = 'http://books.toscrape.com/' +soup.find_all("img")[0]['src'][6:]
         
         download_and_store_img(image_url, title) # telecharger et enregistrer l'image
-        
+
         return [product_page_url, universal_product_code, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url] 
 
     except requests.exceptions.HTTPError as error: # status different de 200 
